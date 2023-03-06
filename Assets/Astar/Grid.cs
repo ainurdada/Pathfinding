@@ -71,6 +71,7 @@ public class Grid : MonoBehaviour
             14 * distX + 10 * (distY - distX);
     }
 
+    public List<Node> path;
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
@@ -80,6 +81,7 @@ public class Grid : MonoBehaviour
             foreach (Node node in grid)
             {
                 Gizmos.color = node.walkable ? Color.white : Color.red;
+                if (path != null && path.Contains(node)) Gizmos.color = Color.black; 
                 Gizmos.DrawCube(node.worldPosition, new Vector3(nodeDiametr * 0.8f, 1, nodeDiametr * 0.8f));
             }
         }

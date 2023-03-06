@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Diagnostics;
 
 public static class AStar
 {
     public static Grid grid;
     public static void FindPath(Vector3 startPosition, Vector3 taregtPosition)
     {
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
         if (grid == null) return;
 
         Node startNode = grid.NodeFromWorldPoint(startPosition);
@@ -33,6 +36,8 @@ public static class AStar
 
             if (currentNode == taregtNode)
             {
+                sw.Stop();
+                UnityEngine.Debug.Log("find time = " + sw.ElapsedMilliseconds);
                 RetracePath(startNode, currentNode);
                 return;
             }
@@ -65,5 +70,7 @@ public static class AStar
             currentNode = currentNode.parent;
         }
         path.Reverse();
+
+        grid.path = path;
     }
 }
