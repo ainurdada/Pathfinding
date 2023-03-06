@@ -16,3 +16,17 @@ public class GridInspector : Editor
         }
     }
 }
+
+[CustomEditor(typeof(TestAStar))]
+public class TestAStarInspector : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+        if (GUILayout.Button("Find Path"))
+        {
+            TestAStar AStar = (TestAStar)target;
+            AStar.FindPath();
+        }
+    }
+}

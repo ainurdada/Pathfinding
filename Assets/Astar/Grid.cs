@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Grid : MonoBehaviour
@@ -25,7 +26,7 @@ public class Grid : MonoBehaviour
                     Vector3.right * (x * nodeDiametr + nodeRadius) +
                     Vector3.forward * (y * nodeDiametr + nodeRadius);
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
-                grid[x, y] = new Node(walkable, worldPoint);
+                grid[x, y] = new Node(walkable, worldPoint, x, y);
             }
         }
     }
@@ -40,6 +41,34 @@ public class Grid : MonoBehaviour
         int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
         int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
         return grid[x, y];
+    }
+
+    public List<Node> GetNeighbours(Node node)
+    {
+        List<Node> neighbours = new List<Node>();
+
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                if (x == 0 && y == 0) continue;
+
+                int checkX = node.gridX + x;
+                int checkY = node.gridY + y;
+                if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY) neighbours.Add(grid[checkX, checkY]);
+            }
+        }
+        return neighbours;
+    }
+
+    public int GetDistance(Node nodeA, Node nodeB)
+    {
+        int distX = Mathf.Abs(nodeA.gridX - nodeB.gridX);
+        int distY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
+
+        return distX > distY ?
+            14 * distY + 10 * (distX - distY) : 
+            14 * distX + 10 * (distY - distX);
     }
 
     private void OnDrawGizmos()
