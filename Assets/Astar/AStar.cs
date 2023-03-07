@@ -15,23 +15,13 @@ public static class AStar
         Node startNode = grid.NodeFromWorldPoint(startPosition);
         Node taregtNode = grid.NodeFromWorldPoint(taregtPosition);
 
-        List<Node> openSet = new List<Node>();
+        Heap<Node> openSet = new Heap<Node>(100);
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add(startNode);
 
         while(openSet.Count > 0)
         {
-            Node currentNode = openSet[0];
-            for(int i = 0; i < openSet.Count; i++)
-            {
-                if (currentNode.fCost > openSet[i].fCost || 
-                    currentNode.fCost == openSet[i].fCost && currentNode.hCost > openSet[i].hCost)
-                {
-                    currentNode = openSet[i];
-                }
-            }
-
-            openSet.Remove(currentNode);
+            Node currentNode = openSet.RemoveFirst();
             closedSet.Add(currentNode);
 
             if (currentNode == taregtNode)
@@ -39,6 +29,7 @@ public static class AStar
                 sw.Stop();
                 UnityEngine.Debug.Log("find time = " + sw.ElapsedMilliseconds);
                 RetracePath(startNode, currentNode);
+                openSet.ResetIndexes();
                 return;
             }
 

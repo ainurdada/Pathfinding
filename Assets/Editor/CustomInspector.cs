@@ -25,6 +25,7 @@ public class TestAStarInspector : Editor
         base.OnInspectorGUI();
         if (GUILayout.Button("Find Path"))
         {
+            Debug.Log("button pressed");
             TestAStar AStar = (TestAStar)target;
             AStar.FindPath();
         }

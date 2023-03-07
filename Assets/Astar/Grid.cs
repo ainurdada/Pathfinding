@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+    public bool onlyDisplayPathGizmos;
     public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
@@ -10,6 +11,7 @@ public class Grid : MonoBehaviour
 
     float nodeDiametr;
     int gridSizeX, gridSizeY;
+
     public void CreateGrid()
     {
         nodeDiametr = nodeRadius * 2;
@@ -29,6 +31,7 @@ public class Grid : MonoBehaviour
                 grid[x, y] = new Node(walkable, worldPoint, x, y);
             }
         }
+        Debug.Log("Grid is ready");
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPoint)
@@ -67,7 +70,7 @@ public class Grid : MonoBehaviour
         int distY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
 
         return distX > distY ?
-            14 * distY + 10 * (distX - distY) : 
+            14 * distY + 10 * (distX - distY) :
             14 * distX + 10 * (distY - distX);
     }
 
@@ -81,7 +84,8 @@ public class Grid : MonoBehaviour
             foreach (Node node in grid)
             {
                 Gizmos.color = node.walkable ? Color.white : Color.red;
-                if (path != null && path.Contains(node)) Gizmos.color = Color.black; 
+                if (path != null && path.Contains(node)) Gizmos.color = Color.black;
+                else if (onlyDisplayPathGizmos) continue;
                 Gizmos.DrawCube(node.worldPosition, new Vector3(nodeDiametr * 0.8f, 1, nodeDiametr * 0.8f));
             }
         }
