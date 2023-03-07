@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
-    public bool onlyDisplayPathGizmos;
+    public bool DisplayPathGizmos;
+    public bool DisplayGridGizmos;
     public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
@@ -75,19 +76,19 @@ public class Grid : MonoBehaviour
     }
 
     public List<Node> path;
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
 
-        if (grid != null)
-        {
-            foreach (Node node in grid)
-            {
-                Gizmos.color = node.walkable ? Color.white : Color.red;
-                if (path != null && path.Contains(node)) Gizmos.color = Color.black;
-                else if (onlyDisplayPathGizmos) continue;
-                Gizmos.DrawCube(node.worldPosition, new Vector3(nodeDiametr * 0.8f, 1, nodeDiametr * 0.8f));
-            }
-        }
-    }
+    //    if (grid != null)
+    //    {
+    //        foreach (Node node in grid)
+    //        {
+    //            Gizmos.color = node.walkable ? Color.white : Color.red;
+    //            if (path != null && path.Contains(node) && DisplayPathGizmos) Gizmos.color = Color.black;
+    //            else if (!DisplayGridGizmos) continue;
+    //            Gizmos.DrawCube(node.worldPosition, new Vector3(nodeDiametr * 0.8f, 1, nodeDiametr * 0.8f));
+    //        }
+    //    }
+    //}
 }
